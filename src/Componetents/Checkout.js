@@ -2,8 +2,10 @@ import React from 'react';
 import '../css/Checkout.css';
 import Subtotal from './Subtotal';
 import BasketList from './BasketList';
+import {useStateValue} from '../State/StateProvider';
 
 export default function Checkout() {
+  const [{basket}, dispatch] = useStateValue();
   return (
     <div className="checkout">
       <div className="checkout-left">
@@ -13,8 +15,18 @@ export default function Checkout() {
           alt="ad"
         />
         <div>
-          <h2 className="checkout-title">Your Shopping Basket</h2>
-          <BasketList />
+          <h2 className="checkout-title">
+            {basket.length ? `Your Shopping Basket` : `You're Basket is empty.`}
+          </h2>
+          {basket.map(item => (
+            <BasketList
+              id={item.id}
+              title={item.title}
+              image={item.image}
+              price={item.price}
+              rating={item.rating}
+            />
+          ))}
         </div>
       </div>
       <div className="checkout-right">
